@@ -1,0 +1,187 @@
+/* ---------- base + tokens ---------- */
+:root {
+  --gold: #f7d889;
+  --red: #a21414;
+  --ink: #0d0d0d;
+  --bg-blur: rgba(0, 0, 0, 0.35);
+  --radius: 16px;
+  --safe-inset: env(safe-area-inset-bottom, 16px);
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC",
+    "Noto Sans CJK TC", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.zh {
+  font-family: "PingFang TC", "Noto Serif CJK TC", serif;
+  letter-spacing: 0.06em;
+}
+.big {
+  font-size: clamp(20px, 5.2vw, 28px);
+  line-height: 1.5;
+}
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- layout ---------- */
+.snap {
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+.panel {
+  position: relative;
+  min-height: 100dvh; /* mobile safe units */
+  scroll-snap-align: start;
+  display: grid;
+  place-items: center;
+  background: #111 center / cover no-repeat;
+}
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55));
+}
+.panel > * {
+  position: relative;
+}
+.cover {
+  background-image: url("assets/bg_clouds_black.jpg"); /* JS updates others */
+}
+
+.safe {
+  width: min(720px, 92vw);
+  padding: 22px;
+  padding-bottom: calc(22px + var(--safe-inset));
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  text-align: center;
+}
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.title {
+  font-size: clamp(36px, 9vw, 56px);
+  line-height: 1.1;
+  color: var(--gold);
+  text-shadow: 0 1px 0 #300, 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+.subtitle {
+  opacity: 0.9;
+}
+.hint {
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn.primary {
+  background: linear-gradient(135deg, #871212, #d31f1f);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.btn.outline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- flip card ---------- */
+.card {
+  width: min(680px, 92vw);
+  min-height: 240px;
+  perspective: 1200px;
+  position: relative;
+}
+.card .front,
+.card .back {
+  border-radius: var(--radius);
+  padding: 24px;
+  background: var(--bg-blur);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background 0.3s;
+}
+.card .front {
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: var(--gold);
+  min-height: 240px;
+}
+.card .back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+.card.revealed .front {
+  transform: rotateY(180deg);
+}
+.card.revealed .back {
+  transform: rotateY(360deg);
+}
+
+/* ---------- photos ---------- */
+.photos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.photos img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- ending panel ---------- */
+.end {
+  background: #1a0b0b;
+}
+.end::before {
+  background: radial-gradient(
+      60% 40% at 50% 20%,
+      rgba(255, 255, 255, 0.08),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9));
+}
+
+/* ---------- fx canvas ---------- */
+#fx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
