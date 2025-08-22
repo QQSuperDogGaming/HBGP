@@ -2,46 +2,39 @@
 <html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>爺爺奶奶｜生日快樂</title>
     <meta name="theme-color" content="#8a1515" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <!-- canvas for gold-confetti effect -->
+    <!-- CSS-only animated background -->
+    <div class="ink-bg" aria-hidden="true"></div>
+
+    <!-- FX canvas for confetti -->
     <canvas id="fx" aria-hidden="true"></canvas>
 
     <main id="app" class="snap">
       <!-- 1) Cover -->
-      <section class="panel cover" data-bg="assets/bg_clouds_black.jpg">
+      <section class="panel cover">
         <div class="safe stack">
           <h1 class="title zh">福壽安康</h1>
           <p class="subtitle">Grandma & Grandpa — Happy Birthday 🎂</p>
           <button id="startBtn" class="btn primary">點我開始</button>
-          <small class="hint">⬆️ 上下滑動探索</small>
+          <small class="hint">⬆️ 上下滑動探索 • 觸碰有驚喜</small>
         </div>
       </section>
 
-      <!-- 2) Blessing card (tap to flip) -->
-      <section class="panel" data-bg="assets/bg_waves_red.jpg">
+      <!-- 2) Blessing card (tap to flip & tilt) -->
+      <section class="panel">
         <div class="safe stack">
           <h2 class="zh">心意卡</h2>
 
-          <div
-            class="card reveal"
-            id="blessingCard"
-            tabindex="0"
-            role="button"
-            aria-label="Tap to reveal blessing"
-          >
-            <div class="front">輕按揭曉祝福 ✨</div>
-            <div class="back">
+          <div class="card reveal" id="blessingCard"
+               tabindex="0" role="button" aria-label="Tap to reveal blessing">
+            <div class="face front">輕按揭曉祝福 ✨</div>
+            <div class="face back">
               <p class="zh big">
                 爺爺奶奶，<br />
                 身體健康，笑口常開；<br />
@@ -53,25 +46,43 @@
 
           <div class="row">
             <button class="btn" data-action="confetti">灑金粉</button>
-            <button class="btn" data-action="switch-bg">換背景</button>
+            <button class="btn" id="shakeBtn">輕震一下</button>
           </div>
         </div>
       </section>
 
-      <!-- 3) Photo grid -->
-      <section class="panel" data-bg="assets/bg_mountains_red.jpg">
+      <!-- 3) Photo grid (CSS placeholders, tap to zoom) -->
+      <section class="panel">
         <div class="safe stack">
           <h2 class="zh">小小回憶</h2>
 
           <div class="photos">
-            <!-- Replace with your photos in /assets -->
-            <img src="assets/bg_clouds_black.jpg" alt="memory 1" />
-            <img src="assets/bg_waves_red.jpg" alt="memory 2" />
-            <img src="assets/bg_mountains_red.jpg" alt="memory 3" />
+            <!-- Replace src with your own images later -->
+            <img alt="memory 1"
+                 src="data:image/svg+xml;utf8,
+                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+                 <defs><linearGradient id='g' x1='0' x2='1'>
+                 <stop offset='0' stop-color='%23a21414'/><stop offset='1' stop-color='%230d0d0d'/></linearGradient></defs>
+                 <rect width='100' height='100' fill='url(%23g)'/>
+                 <circle cx='65' cy='35' r='22' fill='%23f7d889'/>
+                 </svg>" />
+            <img alt="memory 2"
+                 src="data:image/svg+xml;utf8,
+                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+                 <rect width='100' height='100' fill='%230d0d0d'/>
+                 <path d='M0,70 Q25,40 50,70 T100,70 V100 H0 Z' fill='%23a21414'/>
+                 <circle cx='30' cy='30' r='10' fill='%23f7d889'/>
+                 </svg>" />
+            <img alt="memory 3"
+                 src="data:image/svg+xml;utf8,
+                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+                 <rect width='100' height='100' fill='%23a21414'/>
+                 <path d='M10,80 L40,40 L70,75 L90,55' stroke='%23f7d889' stroke-width='3' fill='none'/>
+                 </svg>" />
           </div>
 
           <p class="tip">
-            想換照片？把圖片放進 <code>/assets</code>，然後改上面 <code>src</code>。
+            之後把照片放進 <code>/assets</code> 並把 <code>src</code> 指向你的圖片。
           </p>
         </div>
       </section>
@@ -81,12 +92,29 @@
         <div class="safe stack">
           <h2 class="zh">愛你們</h2>
           <p>謝謝你們的照顧與陪伴。願每一天都平安喜樂。</p>
-          <button class="btn outline" id="installBtn">加入主畫面 (PWA)</button>
           <small class="hint">Made with ❤️ in the family</small>
         </div>
       </section>
     </main>
 
-    <script defer src="script.js"></script>
+    <!-- Interactive control dock -->
+    <aside class="dock">
+      <label>速度
+        <input id="speed" type="range" min="0" max="2" step="0.01" value="1"/>
+      </label>
+      <label>金色
+        <input id="gold" type="range" min="0" max="1.2" step="0.01" value="1"/>
+      </label>
+      <label>粒子
+        <input id="burst" type="range" min="20" max="250" step="1" value="120"/>
+      </label>
+      <label class="row small">
+        <input id="parallax" type="checkbox" checked/> 追蹤手勢/重力
+      </label>
+    </aside>
+
+    <dialog id="lightbox"><img alt="" /><button id="closeBox" class="btn">關閉</button></dialog>
+
+    <script src="script.js" defer></script>
   </body>
 </html>
