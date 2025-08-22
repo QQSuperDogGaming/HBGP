@@ -21,16 +21,15 @@
         <div class="safe stack">
           <h1 class="title zh">福壽安康</h1>
           <p class="subtitle">Grandma & Grandpa — Happy Birthday 🎂</p>
-          <button id="startBtn" class="btn primary">點我開始</button>
-          <small class="hint">⬆️ 上下滑動探索 • 觸碰有驚喜</small>
+          <button id="startBtn" class="btn primary xl">開始</button>
+          <small class="hint">可上下滑動或用下方工具列</small>
         </div>
       </section>
 
-      <!-- 2) Blessing card (tap to flip & tilt) -->
+      <!-- 2) Blessing card -->
       <section class="panel">
         <div class="safe stack">
           <h2 class="zh">心意卡</h2>
-
           <div class="card reveal" id="blessingCard"
                tabindex="0" role="button" aria-label="Tap to reveal blessing">
             <div class="face front">輕按揭曉祝福 ✨</div>
@@ -43,47 +42,33 @@
               <p class="note">— 來自你最愛的家人</p>
             </div>
           </div>
-
-          <div class="row">
-            <button class="btn" data-action="confetti">灑金粉</button>
-            <button class="btn" id="shakeBtn">輕震一下</button>
-          </div>
         </div>
       </section>
 
-      <!-- 3) Photo grid (CSS placeholders, tap to zoom) -->
+      <!-- 3) Photo grid -->
       <section class="panel">
         <div class="safe stack">
           <h2 class="zh">小小回憶</h2>
-
           <div class="photos">
-            <!-- Replace src with your own images later -->
-            <img alt="memory 1"
-                 src="data:image/svg+xml;utf8,
-                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-                 <defs><linearGradient id='g' x1='0' x2='1'>
-                 <stop offset='0' stop-color='%23a21414'/><stop offset='1' stop-color='%230d0d0d'/></linearGradient></defs>
-                 <rect width='100' height='100' fill='url(%23g)'/>
-                 <circle cx='65' cy='35' r='22' fill='%23f7d889'/>
-                 </svg>" />
-            <img alt="memory 2"
-                 src="data:image/svg+xml;utf8,
-                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-                 <rect width='100' height='100' fill='%230d0d0d'/>
-                 <path d='M0,70 Q25,40 50,70 T100,70 V100 H0 Z' fill='%23a21414'/>
-                 <circle cx='30' cy='30' r='10' fill='%23f7d889'/>
-                 </svg>" />
-            <img alt="memory 3"
-                 src="data:image/svg+xml;utf8,
-                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-                 <rect width='100' height='100' fill='%23a21414'/>
-                 <path d='M10,80 L40,40 L70,75 L90,55' stroke='%23f7d889' stroke-width='3' fill='none'/>
-                 </svg>" />
+            <!-- placeholders (replace with your images later) -->
+            <img alt="memory 1" src="data:image/svg+xml;utf8,
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+              <defs><linearGradient id='g' x1='0' x2='1'>
+              <stop offset='0' stop-color='%23a21414'/><stop offset='1' stop-color='%230d0d0d'/></linearGradient></defs>
+              <rect width='100' height='100' fill='url(%23g)'/>
+              <circle cx='65' cy='35' r='22' fill='%23f7d889'/></svg>" />
+            <img alt="memory 2" src="data:image/svg+xml;utf8,
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+              <rect width='100' height='100' fill='%230d0d0d'/>
+              <path d='M0,70 Q25,40 50,70 T100,70 V100 H0 Z' fill='%23a21414'/>
+              <circle cx='30' cy='30' r='10' fill='%23f7d889'/></svg>" />
+            <img alt="memory 3" src="data:image/svg+xml;utf8,
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+              <rect width='100' height='100' fill='%23a21414'/>
+              <path d='M10,80 L40,40 L70,75 L90,55'
+               stroke='%23f7d889' stroke-width='3' fill='none'/></svg>" />
           </div>
-
-          <p class="tip">
-            之後把照片放進 <code>/assets</code> 並把 <code>src</code> 指向你的圖片。
-          </p>
+          <p class="tip">把照片放進 <code>/assets</code>，改上方 <code>src</code>。</p>
         </div>
       </section>
 
@@ -97,22 +82,39 @@
       </section>
     </main>
 
-    <!-- Interactive control dock -->
-    <aside class="dock">
-      <label>速度
-        <input id="speed" type="range" min="0" max="2" step="0.01" value="1"/>
-      </label>
-      <label>金色
-        <input id="gold" type="range" min="0" max="1.2" step="0.01" value="1"/>
-      </label>
-      <label>粒子
-        <input id="burst" type="range" min="20" max="250" step="1" value="120"/>
-      </label>
-      <label class="row small">
-        <input id="parallax" type="checkbox" checked/> 追蹤手勢/重力
-      </label>
-    </aside>
+    <!-- Thumb toolbar -->
+    <nav class="toolbar" role="navigation" aria-label="Quick actions">
+      <button class="tbtn" id="tb-start">開始</button>
+      <button class="tbtn" id="tb-reveal">揭曉</button>
+      <button class="tbtn" id="tb-confetti">灑金粉</button>
+      <button class="tbtn" id="tb-photos">相簿</button>
+      <button class="tbtn" id="tb-settings" aria-haspopup="true">設定</button>
+    </nav>
 
+    <!-- Bottom-sheet settings -->
+    <section class="sheet" id="settings" aria-hidden="true">
+      <header class="sheet-head">
+        <strong>設定</strong>
+        <button id="closeSheet" class="btn ghost">關閉</button>
+      </header>
+      <div class="sheet-body">
+        <label>速度
+          <input id="speed" type="range" min="0" max="2" step="0.01" value="1"/>
+        </label>
+        <label>金色
+          <input id="gold" type="range" min="0" max="1.2" step="0.01" value="1"/>
+        </label>
+        <label class="row small">
+          <input id="parallax" type="checkbox" checked/>
+          追蹤手勢/重力
+        </label>
+        <label>粒子
+          <input id="burst" type="range" min="20" max="200" step="1" value="120"/>
+        </label>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
     <dialog id="lightbox"><img alt="" /><button id="closeBox" class="btn">關閉</button></dialog>
 
     <script src="script.js" defer></script>
