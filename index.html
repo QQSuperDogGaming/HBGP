@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>爺爺奶奶｜生日快樂</title>
+    <meta name="theme-color" content="#8a1515" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- canvas for gold-confetti effect -->
+    <canvas id="fx" aria-hidden="true"></canvas>
+
+    <main id="app" class="snap">
+      <!-- 1) Cover -->
+      <section class="panel cover" data-bg="assets/bg_clouds_black.jpg">
+        <div class="safe stack">
+          <h1 class="title zh">福壽安康</h1>
+          <p class="subtitle">Grandma & Grandpa — Happy Birthday 🎂</p>
+          <button id="startBtn" class="btn primary">點我開始</button>
+          <small class="hint">⬆️ 上下滑動探索</small>
+        </div>
+      </section>
+
+      <!-- 2) Blessing card (tap to flip) -->
+      <section class="panel" data-bg="assets/bg_waves_red.jpg">
+        <div class="safe stack">
+          <h2 class="zh">心意卡</h2>
+
+          <div
+            class="card reveal"
+            id="blessingCard"
+            tabindex="0"
+            role="button"
+            aria-label="Tap to reveal blessing"
+          >
+            <div class="front">輕按揭曉祝福 ✨</div>
+            <div class="back">
+              <p class="zh big">
+                爺爺奶奶，<br />
+                身體健康，笑口常開；<br />
+                年年有今日，歲歲有今朝！
+              </p>
+              <p class="note">— 來自你最愛的家人</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn" data-action="confetti">灑金粉</button>
+            <button class="btn" data-action="switch-bg">換背景</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) Photo grid -->
+      <section class="panel" data-bg="assets/bg_mountains_red.jpg">
+        <div class="safe stack">
+          <h2 class="zh">小小回憶</h2>
+
+          <div class="photos">
+            <!-- Replace with your photos in /assets -->
+            <img src="assets/bg_clouds_black.jpg" alt="memory 1" />
+            <img src="assets/bg_waves_red.jpg" alt="memory 2" />
+            <img src="assets/bg_mountains_red.jpg" alt="memory 3" />
+          </div>
+
+          <p class="tip">
+            想換照片？把圖片放進 <code>/assets</code>，然後改上面 <code>src</code>。
+          </p>
+        </div>
+      </section>
+
+      <!-- 4) Signature -->
+      <section class="panel end">
+        <div class="safe stack">
+          <h2 class="zh">愛你們</h2>
+          <p>謝謝你們的照顧與陪伴。願每一天都平安喜樂。</p>
+          <button class="btn outline" id="installBtn">加入主畫面 (PWA)</button>
+          <small class="hint">Made with ❤️ in the family</small>
+        </div>
+      </section>
+    </main>
+
+    <script defer src="script.js"></script>
+  </body>
+</html>
